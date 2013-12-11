@@ -178,13 +178,16 @@
     if (fd > max_fd) max_fd = fd; \
     }
 
-/***************************USEFUL MACROS? ***************/
+/*******************USEFUL MACROS - Few more - EPOLL & KQUEUE***************/
 #define EPOLL_CTL(fd1, event_type, op_type) { \
     int s; \
     event.data.fd = fd1; \
     event.events = event_type; /* by default, Level triggered */ \
     s = epoll_ctl(efd, op_type, fd1, &event); \
-    /*perror("epoll_ctl"); */\
+    perror("epoll_ctl");\
+    if(s == -1) { \
+	DIE("epoll_ctl again"); \
+    } \
 }
 
 #define KEV_CTL(fd1, event_type, op_type) { \
